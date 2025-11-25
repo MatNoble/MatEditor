@@ -4,13 +4,14 @@ export enum ThemeId {
   MDNICE = 'theme-mdnice',
   DRACULA_PLUS = 'theme-dracula-plus',
   ACADEMIC = 'theme-academic',
+  CUSTOM = 'theme-custom',
 }
 
 export interface Theme {
   id: ThemeId;
   name: string;
-  className: ThemeId;
-  fontFamily: 'font-sans' | 'font-serif' | 'font-mono';
+  className: ThemeId | string;
+  fontFamily: 'font-sans' | 'font-serif' | 'font-caveat' | 'font-mono' | 'font-noto-serif';
 }
 
 export interface EditorProps {

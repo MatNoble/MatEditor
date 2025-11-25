@@ -6,8 +6,20 @@ import rehypeKatex from 'rehype-katex';
 import { PreviewProps } from '../types';
 import { Copy, Check, Quote } from 'lucide-react';
 
-const PreviewComponent: React.FC<PreviewProps> = ({ markdown, theme }) => {
+interface PreviewWithScrollProps extends PreviewProps {
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  previewRef?: React.Ref<HTMLDivElement>;
+}
+
+const PreviewComponent: React.FC<PreviewWithScrollProps> = ({
+  markdown,
+  theme,
+  onScroll,
+  previewRef: externalRef
+}) => {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const internalRef = React.useRef<HTMLDivElement>(null);
+  const previewRef = (externalRef as React.RefObject<HTMLDivElement>) || internalRef;
 
   const handleCopy = useCallback((code: string, id: string) => {
     navigator.clipboard.writeText(code);
@@ -16,11 +28,23 @@ const PreviewComponent: React.FC<PreviewProps> = ({ markdown, theme }) => {
   }, []);
 
   const components = useMemo(() => ({
-    h1: ({...props}) => <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-[var(--heading-color)] pb-4 mb-6 border-b border-b-[var(--hr-color)]" {...props} />,
-    h2: ({...props}) => <h2 className="text-3xl font-bold tracking-tight text-[var(--heading-color)] mt-12 mb-6 pb-2" {...props} />,
-    h3: ({...props}) => <h3 className="text-2xl font-semibold tracking-tight text-[var(--heading-color)] mt-10 mb-4" {...props} />,
-    h4: ({...props}) => <h4 className="text-xl font-medium text-[var(--heading-color)] mt-8 mb-4" {...props} />,
-    p: ({...props}) => <p className="leading-8 text-justify mb-6 text-[var(--text-color)]" {...props} />,
+    h1: ({...props}) => <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-[var(--heading-color)] pb-4 mb-4 border-b border-b-[var(--hr-color)]" {...props} />,
+    h2: ({...props}) => <h2 className="text-2xl font-bold tracking-tight text-[var(--heading-color)] mt-8 mb-4 pb-2" {...props} />,
+    h3: ({...props}) => <h3 className="text-xl font-semibold tracking-tight text-[var(--heading-color)] mt-6 mb-3" {...props} />,
+    h4: ({...props}) => <h4 className="text-lg font-medium text-[var(--heading-color)] mt-5 mb-2" {...props} />,
+    p: ({children, ...props}) => {
+      // Check if paragraph contains only KaTeX display math
+      const hasOnlyDisplayMath = React.Children.count(children) === 1 &&
+        React.isValidElement(children) &&
+        (children.props.className?.includes('katex-display') ||
+         children.props.className?.includes('katex math-display'));
+
+      if (hasOnlyDisplayMath) {
+        return <div className="flex justify-center my-6">{children}</div>;
+      }
+
+      return <p className="leading-7 text-justify mb-6 text-[var(--text-color)]" {...props}>{children}</p>;
+    },
     li: ({...props}) => <li className="my-3 pl-2 leading-8 text-[var(--text-color)]" {...props} />,
     strong: ({...props}) => <strong className="font-bold text-[var(--bold-color)]" {...props} />,
     a: ({...props}) => <a className="font-medium underline underline-offset-4 decoration-[var(--link-color)] text-[var(--link-color)] hover:opacity-80 transition-opacity" {...props} />,
@@ -68,7 +92,12 @@ const PreviewComponent: React.FC<PreviewProps> = ({ markdown, theme }) => {
   }), [theme, copiedCode, handleCopy]);
 
   return (
-    <div className={`w-full h-full overflow-y-auto p-6 md:p-12 transition-colors duration-300 bg-[var(--bg-color)] text-[var(--text-color)] ${theme.className} ${theme.fontFamily}`} id="preview-scroll-container">
+    <div
+      ref={previewRef}
+      className={`w-full h-full overflow-y-auto p-6 md:p-12 transition-colors duration-300 bg-[var(--bg-color)] text-[var(--text-color)] ${theme.className} ${theme.fontFamily}`}
+      id="preview-scroll-container"
+      onScroll={onScroll}
+    >
       <div id="print-container" className="max-w-4xl mx-auto">
         <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[[rehypeKatex, { output: 'html', throwOnError: false }]]} components={components}>
           {markdown}
@@ -78,4 +107,6 @@ const PreviewComponent: React.FC<PreviewProps> = ({ markdown, theme }) => {
   );
 };
 
-export const Preview = React.memo(PreviewComponent);
+export const Preview = React.memo(React.forwardRef<HTMLDivElement, PreviewWithScrollProps>((props, ref) =>
+  <PreviewComponent {...props} previewRef={ref} />
+));

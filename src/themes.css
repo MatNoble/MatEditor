@@ -1,19 +1,7 @@
-/* 
+/*
   Defines CSS variables for multiple themes.
   The active theme is controlled by applying the corresponding class
   (e.g., .theme-default, .theme-mdnice) to a container element.
-*/
-
-/* 
-  Defines CSS variables for multiple themes.
-  The active theme is controlled by applying the corresponding class
-  (e.g., .theme-default, .theme-mdnice) to a container element.
-*/
-
-/* 
-  Defines CSS variables for multiple themes.
-  The active theme is controlled by applying the corresponding class
-  to a container element.
 */
 
 .theme-tech-blue {
@@ -36,22 +24,161 @@
 }
 
 .theme-academic {
-  --bg-color: #ffffff;
-  --text-color: #212529;
-  --heading-color: #000000;
-  --link-color: #0d6efd;
-  --bold-color: #000000;
-  --quote-text-color: #555;
-  --quote-bg-color: #f8f9fa;
-  --quote-border-color: #ccc;
-  --inline-code-text-color: #d63384;
-  --inline-code-bg-color: #f8f9fa;
-  --hr-color: #ccc;
-  --code-bg: #f8f9fa;
-  --code-text: #212529;
-  --code-header-bg: #e9ecef;
-  --code-header-text: #555;
-  --code-border: #dee2e6;
+  --bg-color: #fcfcfc; /* Very light grey */
+  --text-color: #333333; /* Darker text for better print readability */
+  --heading-color: #1a1a1a; /* Very dark for headings */
+  --link-color: #0066cc; /* Darker blue for better print contrast */
+  --bold-color: #cc3333; /* Deeper red for emphasis */
+  --italic-color: #006699; /* Teal color for mathematical emphasis */
+  --quote-text-color: #555555; /* Medium grey for quotes */
+  --quote-bg-color: #f5f5f5; /* Subtle quote background */
+  --quote-border-color: #0066cc; /* Consistent with link color */
+  --inline-code-text-color: #000000; /* Black for inline code */
+  --inline-code-bg-color: #f0f0f0; /* Light grey background */
+  --hr-color: #e8e8e8; /* Very light grey for better readability */
+  --code-bg: #f8f8f8; /* Light code background */
+  --code-text: #333333; /* Dark code text */
+  --code-header-bg: #e8e8e8; /* Slightly darker header */
+  --code-header-text: #666666; /* Medium grey header text */
+  --code-border: #d0d0d0; /* Subtle border */
+
+  /* Enhanced typography for lecture notes */
+  font-size: 1.05rem; /* Slightly smaller but still readable */
+  line-height: 1.8; /* Better line spacing for lecture notes */
+
+  /* Optimized headings for lectures */
+  h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 1.2rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  /* Enhanced ruled paper effect */
+  background-image: linear-gradient(to bottom, transparent 32px, var(--hr-color) 33px);
+  background-size: 100% 34px; /* Perfect line spacing for lecture notes */
+  background-attachment: local;
+  padding-top: 20px;
+
+  /* Better spacing for paragraphs */
+  p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+  }
+
+  /* Enhanced mathematical content styling */
+  .katex {
+    font-size: 1.1em; /* Slightly larger for math */
+  }
+
+  .katex-display {
+    margin: 1.5em 0;
+    text-align: center;
+  }
+
+  /* Better list styling */
+  ul, ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  /* Enhanced blockquotes for definitions/theorems */
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid var(--quote-border-color);
+    background-color: var(--quote-bg-color);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Improved code blocks */
+  pre {
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  /* Better table styling */
+  table {
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+  }
+
+  /* Print optimizations */
+  @media print {
+    font-size: 12pt;
+    line-height: 1.6;
+
+    /* Remove background effects for printing */
+    background-image: none;
+    background: white;
+
+    /* Ensure page breaks are appropriate */
+    h1, h2, h3 {
+      page-break-after: avoid;
+    }
+
+    pre, blockquote {
+      page-break-inside: avoid;
+    }
+
+    /* Orphans and widows control */
+    p, li {
+      orphans: 3;
+      widows: 3;
+    }
+
+    /* Better print margins */
+    body {
+      margin: 1in;
+    }
+  }
+
+  /* Custom rule for italic text */
+  em {
+    color: var(--italic-color);
+    font-style: italic;
+  }
+
+  /* Enhanced definition styling */
+  strong {
+    color: var(--bold-color);
+    font-weight: 600;
+  }
+
+  /* Better link styling */
+  a {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #0052a3;
+  }
 }
 
 .theme-mdnice {

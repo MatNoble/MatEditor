@@ -11,7 +11,7 @@ export const THEMES: Theme[] = [
     id: ThemeId.ACADEMIC,
     name: '格致',
     className: ThemeId.ACADEMIC,
-    fontFamily: 'font-serif',
+    fontFamily: 'font-noto-serif',
   },
   {
     id: ThemeId.MDNICE,
@@ -25,4 +25,10 @@ export const THEMES: Theme[] = [
     className: ThemeId.DRACULA_PLUS,
     fontFamily: 'font-mono',
   },
-];
+  {
+    id: ThemeId.CUSTOM,
+    name: '自定义',
+    className: '', // Custom theme styles are applied via a <style> tag
+    fontFamily: 'font-sans',
+  },
+  ];

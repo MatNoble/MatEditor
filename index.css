@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for KaTeX */
-.katex-display {
-  text-align: center;
+/* Ensure Caveat font is applied when font-caveat class is used */
+.font-caveat {
+  font-family: 'Caveat', cursive;
 }
-.katex-display > .katex {
-  white-space: normal;
+
+/* Ensure Noto Serif SC font is applied when font-noto-serif class is used */
+.font-noto-serif {
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* Custom styles for KaTeX - Simple fix for display math centering */
+.katex-display {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
 }

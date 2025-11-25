@@ -90,10 +90,10 @@ $$
 
 ### 链接与图片
 
-这是一个 [外部链接](https://www.matnoble.top)。
-这是另一个 [内部链接](https://matnoble.top/about)。
+这是一个 [外部链接](https://blog.matnoble.top)。
 
-![Placeholder Image](https://via.placeholder.com/150/0000FF/FFFFFF?text=MatNoble)
+![Placeholder Image](https://placehold.co/246x150/0000FF/FFFFFF?text=MatNoble&font=roboto)
+
 
 ### 引用
 

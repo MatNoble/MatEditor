@@ -22,6 +22,7 @@ export default {
         sans: ['"Noto Sans SC"', 'Inter', 'sans-serif'],
         mono: ['"Fira Code"', 'monospace'],
         serif: ['"Lora"', '"Noto Serif SC"', 'serif'],
+        caveat: ['"Caveat"', 'cursive'], // Add Caveat font
       },
     },
   },
