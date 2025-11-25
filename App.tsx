@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
 import { THEMES, DEFAULT_MARKDOWN } from './constants';
@@ -39,7 +39,7 @@ const App: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleExportHtml = () => {
+  const handleExportHtml = useCallback(() => {
     const previewElement = document.getElementById('print-container');
     if (!previewElement) return;
 
@@ -106,9 +106,9 @@ const App: React.FC = () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  };
+  }, [activeTheme]);
 
-  const handleFormat = async () => {
+  const handleFormat = useCallback(async () => {
     setIsFormatting(true);
     try {
       const formatted = await formatMarkdown(markdown);
@@ -118,10 +118,10 @@ const App: React.FC = () => {
     } finally {
       setIsFormatting(false);
     }
-  };
+  }, [markdown]);
 
-  const handleSmartFormat = async () => {
-    if (!process.env.API_KEY) {
+  const handleSmartFormat = useCallback(async () => {
+    if (!import.meta.env.VITE_API_KEY) {
       alert("请先设置 API_KEY 环境变量以使用 AI 功能。");
       return;
     }
@@ -137,10 +137,10 @@ const App: React.FC = () => {
     } finally {
       setIsSmartFormatting(false);
     }
-  };
+  }, [markdown]);
 
-  const handleEnhance = async () => {
-    if (!process.env.API_KEY) {
+  const handleEnhance = useCallback(async () => {
+    if (!import.meta.env.VITE_API_KEY) {
       alert("请先设置 API_KEY 环境变量以使用 AI 功能。");
       return;
     }
@@ -154,7 +154,7 @@ const App: React.FC = () => {
     } finally {
       setIsEnhancing(false);
     }
-  };
+  }, [markdown]);
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-gray-100 dark:bg-gray-900 transition-colors duration-300 print:h-auto print:w-auto print:overflow-visible">

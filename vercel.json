@@ -1,0 +1,26 @@
+{
+  "framework": "vite",
+  "build": {
+    "env": {
+      "VITE_API_KEY": "@vite-api-key"
+    }
+  },
+  "env": {
+    "VITE_API_KEY": "@vite-api-key"
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

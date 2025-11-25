@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for KaTeX */
+.katex-display > .katex {
+  white-space: normal;
+}
+.katex-display > .katex {
+  text-align: left;
+}

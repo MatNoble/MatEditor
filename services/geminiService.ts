@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Ensure we have the API key
-const apiKey = process.env.API_KEY || '';
+const apiKey = import.meta.env.VITE_API_KEY || '';
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 /**
