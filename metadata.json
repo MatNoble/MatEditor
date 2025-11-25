@@ -1,0 +1,5 @@
+{
+  "name": "MatNoble Editor",
+  "description": "一款高级 Markdown 编辑器，内置多款主题、支持 LaTeX 公式、HTML 导出以及 Gemini 驱动的智能润色功能。",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MatNoble Editor - 智能 Markdown 编辑器</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="MatNoble Editor 是一款支持 AI 润色、多款主题、LaTeX 公式的在线 Markdown 编辑器。提供 Github、Dracula 等多种高亮主题，支持一键 HTML 导出。">
+    <meta name="keywords" content="Markdown编辑器, 在线编辑器, AI写作助手, LaTeX公式, Markdown Themes, MatNoble">
+    <meta name="author" content="MatNoble">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="MatNoble Editor - 智能 Markdown 编辑器">
+    <meta property="og:description" content="极简设计，功能强大。支持 AI 润色、LaTeX 公式渲染与多种精美主题。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://editor.matnoble.top">
+    
+    <!-- Favicon (Using generic placeholder or valid link if available) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+
+    <!-- Tailwind CSS (Keep CDN for simplicity or migrate to PostCSS later) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            typography: (theme) => ({
+              DEFAULT: {
+                css: {
+                  color: theme('colors.slate.700'),
+                },
+              },
+            }),
+            fontFamily: {
+              sans: ['"Noto Sans SC"', 'Inter', 'sans-serif'],
+              mono: ['"Fira Code"', 'monospace'],
+              serif: ['"Lora"', '"Noto Serif SC"', 'serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS for Math Rendering -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; 
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+      }
+
+      /* Print Styles */
+      @media print {
+        @page {
+          margin: 0; /* Remove default browser margin to allow full-bleed background */
+          size: auto;
+        }
+        
+        /* Enable background graphics printing */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        /* Reset basic document constraints */
+        html, body {
+          height: auto !important;
+          width: 100% !important;
+          overflow: visible !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* Ensure React root doesn't constrain height */
+        #root {
+          display: block !important;
+          height: auto !important;
+          width: 100% !important;
+          overflow: visible !important;
+          position: static !important;
+        }
+
+        /* Reset specific print container styles */
+        #preview-scroll-container, #print-container {
+          height: auto !important;
+          width: 100% !important;
+          overflow: visible !important;
+          position: static !important;
+          margin: 0 !important;
+          box-shadow: none !important;
+        }
+
+        /* Allow code blocks to break nicely */
+        pre, code {
+          white-space: pre-wrap !important;
+          break-inside: avoid;
+        }
+
+        /* Clean up tables */
+        table, tr, td, th {
+          break-inside: avoid;
+        }
+
+        /* Clean up images */
+        img {
+          break-inside: avoid;
+          max-width: 100% !important;
+        }
+
+        /* Pagination Control */
+        h1, h2, h3, h4, h5, h6 {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+        
+        p, blockquote, ul, ol, dl, table, pre {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        
+        /* Hide URL hrefs */
+        a {
+          text-decoration: underline;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "remark-gfm": "https://aistudiocdn.com/remark-gfm@^4.0.1",
+    "remark-math": "https://aistudiocdn.com/remark-math@^6.0.0",
+    "rehype-katex": "https://aistudiocdn.com/rehype-katex@^7.0.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "prettier/": "https://aistudiocdn.com/prettier@^3.6.2/",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans h-screen w-screen overflow-hidden print:overflow-visible print:h-auto">
+    <div id="root" class="h-full w-full"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
