@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
-import { THEMES, DEFAULT_MARKDOWN } from './constants';
+import { THEMES } from './constants';
 import { ThemeId } from './types';
 import { enhanceMarkdown, smartFormatMarkdown } from './services/geminiService';
 import { formatMarkdown } from './services/formatService';
@@ -18,7 +18,7 @@ import tailwindCss from './index.css?inline';
 import katexCss from 'katex/dist/katex.min.css?inline';
 
 const App: React.FC = () => {
-  const [markdown, setMarkdown] = useState<string>(DEFAULT_MARKDOWN);
+  const [markdown, setMarkdown] = useState<string>('');
   const [activeThemeId, setActiveThemeId] = useState<ThemeId>(ThemeId.DEFAULT);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [isFormatting, setIsFormatting] = useState(false);
@@ -29,6 +29,14 @@ const App: React.FC = () => {
   const formatMenuRef = useRef<HTMLDivElement>(null);
 
   const activeTheme = THEMES.find(t => t.id === activeThemeId) || THEMES[0];
+
+  // Fetch default markdown on mount
+  useEffect(() => {
+    fetch('/DEFAULT_MARKDOWN.md')
+      .then(res => res.text())
+      .then(text => setMarkdown(text))
+      .catch(err => console.error("Failed to load default markdown:", err));
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -66,7 +74,7 @@ const App: React.FC = () => {
   </style>
 </head>
 <body class="min-h-screen ${activeTheme.className} ${activeTheme.fontFamily} p-8 md:p-12">
-  <div class="max-w-4xl mx-auto prose prose-lg ${activeTheme.proseClass}">
+  <div class="max-w-4xl mx-auto">
     ${contentHtml}
   </div>
 </body>
@@ -136,6 +144,7 @@ const App: React.FC = () => {
       
       {/* Header / Toolbar */}
       <header className="h-16 flex-none bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between px-4 shadow-sm z-10 print:hidden">
+        {/* Left Side: Logo and Title */}
         <div className="flex items-center space-x-2 mr-4">
           <div className="bg-gradient-to-tr from-blue-600 to-purple-600 p-2 rounded-lg">
             <FileText className="w-5 h-5 text-white" />
@@ -145,125 +154,110 @@ const App: React.FC = () => {
           </h1>
         </div>
 
-        <div className="flex items-center space-x-2 md:space-x-4 flex-1 justify-end md:justify-between">
-          
-          {/* Theme Selector (Scrollable) */}
-          <div className="flex-1 overflow-x-auto max-w-[200px] md:max-w-xl mx-2 no-scrollbar">
-             <div className="flex space-x-1 p-1">
+        {/* Right Side: Actions */}
+        <div className="flex items-center space-x-2 md:space-x-4">
+          {/* Theme Selector (Dropdown) */}
+          <div className="relative flex items-center">
+            <label htmlFor="theme-select" className="sr-only">主题</label> {/* Screen reader only label */}
+            <select
+              id="theme-select"
+              value={activeThemeId}
+              onChange={(e) => setActiveThemeId(e.target.value as ThemeId)}
+              className="appearance-none block w-auto pl-3 pr-8 py-1.5 text-sm bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-lg text-slate-700 dark:text-white shadow-sm hover:border-blue-300 dark:hover:border-blue-500 transition-colors cursor-pointer"
+            >
               {THEMES.map((theme) => (
-                <button
-                  key={theme.id}
-                  onClick={() => setActiveThemeId(theme.id)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-all border ${
-                    activeThemeId === theme.id
-                      ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-slate-700 dark:border-slate-600 dark:text-blue-400'
-                      : 'bg-transparent border-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700'
-                  }`}
-                >
+                <option key={theme.id} value={theme.id}>
                   {theme.name}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400 pointer-events-none" />
           </div>
 
-          <div className="flex items-center space-x-2 flex-shrink-0">
-            <div className="h-6 w-px bg-gray-300 dark:bg-slate-600 mx-1 md:mx-2" />
+          <div className="h-6 w-px bg-gray-300 dark:bg-slate-600" />
 
-             {/* Format Group Button */}
-             <div className="relative flex items-center" ref={formatMenuRef}>
-               <button
-                onClick={handleFormat}
-                disabled={isFormatting || isSmartFormatting}
-                title="标准格式化 (Prettier)"
-                className={`flex items-center space-x-2 px-3 py-1.5 md:pl-4 md:pr-2 rounded-l-lg border-r-0 text-sm font-medium transition-all ${
-                  isFormatting || isSmartFormatting
-                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600'
-                }`}
-              >
-                {isFormatting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Eraser className="w-4 h-4" />
-                )}
-                <span className="hidden md:inline">格式化</span>
-              </button>
-              
-              <button
-                onClick={() => setShowFormatMenu(!showFormatMenu)}
-                disabled={isFormatting || isSmartFormatting}
-                className={`px-1.5 py-1.5 rounded-r-lg border-l border-slate-300 text-sm font-medium transition-all ${
-                   isFormatting || isSmartFormatting
-                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:border-l-slate-500'
-                }`}
-              >
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              {/* Dropdown Menu */}
-              {showFormatMenu && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-100 dark:border-slate-700 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="py-1">
-                    <button
-                      onClick={() => { setShowFormatMenu(false); handleFormat(); }}
-                      className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center space-x-2"
-                    >
-                      <Eraser className="w-4 h-4 text-slate-400" />
-                      <span>标准格式化</span>
-                    </button>
-                    <button
-                      onClick={handleSmartFormat}
-                      className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center space-x-2 group"
-                    >
-                      {isSmartFormatting ? (
-                         <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                      ) : (
-                         <Wand2 className="w-4 h-4 text-blue-500 group-hover:text-blue-600" />
-                      )}
-                      <div>
-                        <span className="block font-medium text-blue-600 dark:text-blue-400">AI 智能排版</span>
-                        <span className="text-[10px] text-gray-400 leading-tight">优化中西文空格与标点</span>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* AI Enhance Action */}
+          {/* Format Group Button */}
+          <div className="relative flex items-center" ref={formatMenuRef}>
             <button
-              onClick={handleEnhance}
-              disabled={isEnhancing}
-              className={`flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-sm font-medium transition-all ${
-                isEnhancing 
-                  ? 'bg-purple-100 text-purple-400 cursor-not-allowed' 
-                  : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200 hover:border-purple-300'
+              onClick={handleFormat}
+              disabled={isFormatting || isSmartFormatting}
+              title="标准格式化 (Prettier)"
+              className={`flex items-center space-x-2 px-3 py-1.5 md:pl-4 md:pr-2 rounded-l-lg border-r-0 text-sm font-medium transition-all ${
+                isFormatting || isSmartFormatting
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                  : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600'
               }`}
             >
-              {isEnhancing ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="hidden md:inline">润色中</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  <span className="hidden md:inline">AI 润色</span>
-                </>
-              )}
+              {isFormatting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Eraser className="w-4 h-4" />}
+              <span className="hidden md:inline">格式化</span>
             </button>
-
-            {/* Export HTML Action (Simplified) */}
             <button
-              onClick={handleExportHtml}
-              className="flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-colors"
+              onClick={() => setShowFormatMenu(!showFormatMenu)}
+              disabled={isFormatting || isSmartFormatting}
+              className={`px-1.5 py-1.5 rounded-r-lg border-l border-slate-300 text-sm font-medium transition-all ${
+                 isFormatting || isSmartFormatting
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                  : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:border-l-slate-500'
+              }`}
             >
-              <Download className="w-4 h-4" />
-              <span className="hidden md:inline">导出 HTML</span>
+              <ChevronDown className="w-4 h-4" />
             </button>
-
+            {showFormatMenu && (
+              <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-100 dark:border-slate-700 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="py-1">
+                  <button
+                    onClick={() => { setShowFormatMenu(false); handleFormat(); }}
+                    className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center space-x-2"
+                  >
+                    <Eraser className="w-4 h-4 text-slate-400" />
+                    <span>标准格式化</span>
+                  </button>
+                  <button
+                    onClick={handleSmartFormat}
+                    className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center space-x-2 group"
+                  >
+                    {isSmartFormatting ? <Loader2 className="w-4 h-4 animate-spin text-blue-500" /> : <Wand2 className="w-4 h-4 text-blue-500 group-hover:text-blue-600" />}
+                    <div>
+                      <span className="block font-medium text-blue-600 dark:text-blue-400">AI 智能排版</span>
+                      <span className="text-[10px] text-gray-400 leading-tight">优化中西文空格与标点</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* AI Enhance Action */}
+          <button
+            onClick={handleEnhance}
+            disabled={isEnhancing}
+            className={`flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-sm font-medium transition-all ${
+              isEnhancing 
+                ? 'bg-purple-100 text-purple-400 cursor-not-allowed' 
+                : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200 hover:border-purple-300'
+            }`}
+          >
+            {isEnhancing ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="hidden md:inline">润色中</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" />
+                <span className="hidden md:inline">AI 润色</span>
+              </>
+            )}
+          </button>
+
+          {/* Export HTML Action (Simplified) */}
+          <button
+            onClick={handleExportHtml}
+            className="flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden md:inline">导出 HTML</span>
+          </button>
         </div>
       </header>
 

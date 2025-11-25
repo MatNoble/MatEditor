@@ -1,28 +1,16 @@
 export enum ThemeId {
-  DEFAULT = 'default',
-  GITHUB_LIGHT = 'github-light',
-  DRACULA = 'dracula',
-  SOLARIZED = 'solarized',
-  ACADEMIC = 'academic',
-  CYBERPUNK = 'cyberpunk'
+  DEFAULT = 'theme-tech-blue', // Set Tech Blue as the default
+  TECH_BLUE = 'theme-tech-blue',
+  MDNICE = 'theme-mdnice',
+  DRACULA_PLUS = 'theme-dracula-plus',
+  ACADEMIC = 'theme-academic',
 }
 
 export interface Theme {
   id: ThemeId;
   name: string;
-  className: string; // Container background/text
-  proseClass: string; // Typography plugin overrides or custom CSS mapping
+  className: ThemeId;
   fontFamily: 'font-sans' | 'font-serif' | 'font-mono';
-  
-  // Code block specific styling
-  codeBlockBackground: string;
-  codeBlockTextColor: string;
-  windowHeaderColor: string;
-  windowBorderColor: string;
-  showWindowControls: boolean; // Show Mac-style red/yellow/green dots
-  
-  // Inline styles
-  boldColor?: string;
 }
 
 export interface EditorProps {

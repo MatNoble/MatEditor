@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 /* Custom styles for KaTeX */
-.katex-display > .katex {
-  white-space: normal;
+.katex-display {
+  text-align: center;
 }
 .katex-display > .katex {
-  text-align: left;
+  white-space: normal;
 }
