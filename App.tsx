@@ -306,6 +306,15 @@ const App: React.FC = () => {
         </div>
 
       </main>
+      {/* Footer */}
+      <footer className="flex-none py-4 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-gray-200 dark:border-slate-700 print:hidden">
+        <p>Created by MatNoble. All rights reserved.</p>
+        <p className="mt-1">
+          博客: <a href="https://blog.matnoble.top" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">blog.matnoble.top</a> | 
+          微信公众号: 数学思维研究社 | 
+          GitHub: <a href="https://github.com/MatNoble" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">MatNoble</a>
+        </p>
+      </footer>
     </div>
   );
 };
