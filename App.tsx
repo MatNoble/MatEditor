@@ -14,6 +14,8 @@ import {
   Wand2,
   Download
 } from 'lucide-react';
+import tailwindCss from './index.css?inline';
+import katexCss from 'katex/dist/katex.min.css?inline';
 
 const App: React.FC = () => {
   const [markdown, setMarkdown] = useState<string>(DEFAULT_MARKDOWN);
@@ -39,14 +41,12 @@ const App: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleExportHtml = useCallback(() => {
+  const handleExportHtml = useCallback(async () => {
     const previewElement = document.getElementById('print-container');
     if (!previewElement) return;
 
-    // 获取渲染后的 HTML 内容
     const contentHtml = previewElement.innerHTML;
 
-    // 构建完整的 HTML 文档
     const fullHtml = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -54,36 +54,11 @@ const App: React.FC = () => {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MatNoble Editor Export</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          typography: (theme) => ({
-            DEFAULT: {
-              css: {
-                color: theme('colors.slate.700'),
-              },
-            },
-          }),
-          fontFamily: {
-            sans: ['"Noto Sans SC"', 'Inter', 'sans-serif'],
-            mono: ['"Fira Code"', 'monospace'],
-            serif: ['"Lora"', '"Noto Serif SC"', 'serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <!-- KaTeX CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+    /* Inlined Tailwind CSS */
+    ${tailwindCss}
+    /* Inlined KaTeX CSS */
+    ${katexCss}
     /* Hide elements marked for export hiding */
     .export-hidden { display: none !important; }
     /* Ensure code blocks wrap correctly */
