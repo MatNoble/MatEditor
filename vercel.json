@@ -1,13 +1,5 @@
 {
   "framework": "vite",
-  "build": {
-    "env": {
-      "VITE_API_KEY": "@vite-api-key"
-    }
-  },
-  "env": {
-    "VITE_API_KEY": "@vite-api-key"
-  },
   "builds": [
     {
       "src": "package.json",
