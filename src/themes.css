@@ -8,10 +8,12 @@
   --bg-color: #f7f7f7;
   --text-color: #3e3e3e;
   --heading-color: #303030;
-  --link-color: #3b82f6; /* Blue-500 */
+  --link-color: #3b82f6;
+  /* Blue-500 */
   --bold-color: #3b82f6;
   --quote-text-color: #555;
-  --quote-bg-color: #eff6ff; /* Blue-50 */
+  --quote-bg-color: #eff6ff;
+  /* Blue-50 */
   --quote-border-color: #3b82f6;
   --inline-code-text-color: #3b82f6;
   --inline-code-bg-color: #eff6ff;
@@ -24,27 +26,46 @@
 }
 
 .theme-academic {
-  --bg-color: #fcfcfc; /* Very light grey */
-  --text-color: #333333; /* Darker text for better print readability */
-  --heading-color: #1a1a1a; /* Very dark for headings */
-  --link-color: #0066cc; /* Darker blue for better print contrast */
-  --bold-color: #cc3333; /* Deeper red for emphasis */
-  --italic-color: #006699; /* Teal color for mathematical emphasis */
-  --quote-text-color: #555555; /* Medium grey for quotes */
-  --quote-bg-color: #f5f5f5; /* Subtle quote background */
-  --quote-border-color: #0066cc; /* Consistent with link color */
-  --inline-code-text-color: #000000; /* Black for inline code */
-  --inline-code-bg-color: #f0f0f0; /* Light grey background */
-  --hr-color: #e8e8e8; /* Very light grey for better readability */
-  --code-bg: #f8f8f8; /* Light code background */
-  --code-text: #333333; /* Dark code text */
-  --code-header-bg: #e8e8e8; /* Slightly darker header */
-  --code-header-text: #666666; /* Medium grey header text */
-  --code-border: #d0d0d0; /* Subtle border */
+  --bg-color: #fcfcfc;
+  /* Very light grey */
+  --text-color: #333333;
+  /* Darker text for better print readability */
+  --heading-color: #1a1a1a;
+  /* Very dark for headings */
+  --link-color: #0066cc;
+  /* Darker blue for better print contrast */
+  --bold-color: #cc3333;
+  /* Deeper red for emphasis */
+  --italic-color: #006699;
+  /* Teal color for mathematical emphasis */
+  --quote-text-color: #555555;
+  /* Medium grey for quotes */
+  --quote-bg-color: #f5f5f5;
+  /* Subtle quote background */
+  --quote-border-color: #0066cc;
+  /* Consistent with link color */
+  --inline-code-text-color: #000000;
+  /* Black for inline code */
+  --inline-code-bg-color: #f0f0f0;
+  /* Light grey background */
+  --hr-color: #e8e8e8;
+  /* Very light grey for better readability */
+  --code-bg: #f8f8f8;
+  /* Light code background */
+  --code-text: #333333;
+  /* Dark code text */
+  --code-header-bg: #e8e8e8;
+  /* Slightly darker header */
+  --code-header-text: #666666;
+  /* Medium grey header text */
+  --code-border: #d0d0d0;
+  /* Subtle border */
 
   /* Enhanced typography for lecture notes */
-  font-size: 1.05rem; /* Slightly smaller but still readable */
-  line-height: 1.8; /* Better line spacing for lecture notes */
+  font-size: 1.05rem;
+  /* Slightly smaller but still readable */
+  line-height: 1.8;
+  /* Better line spacing for lecture notes */
 
   /* Optimized headings for lectures */
   h1 {
@@ -54,6 +75,7 @@
     margin-bottom: 1.5rem;
     font-weight: 600;
   }
+
   h2 {
     font-size: 1.8rem;
     margin-top: 2rem;
@@ -61,12 +83,14 @@
     padding-bottom: 0.5rem;
     font-weight: 600;
   }
+
   h3 {
     font-size: 1.4rem;
     margin-top: 1.5rem;
     margin-bottom: 0.8rem;
     font-weight: 600;
   }
+
   h4 {
     font-size: 1.2rem;
     margin-top: 1.2rem;
@@ -76,7 +100,8 @@
 
   /* Enhanced ruled paper effect */
   background-image: linear-gradient(to bottom, transparent 32px, var(--hr-color) 33px);
-  background-size: 100% 34px; /* Perfect line spacing for lecture notes */
+  background-size: 100% 34px;
+  /* Perfect line spacing for lecture notes */
   background-attachment: local;
   padding-top: 20px;
 
@@ -88,7 +113,8 @@
 
   /* Enhanced mathematical content styling */
   .katex {
-    font-size: 1.1em; /* Slightly larger for math */
+    font-size: 1.1em;
+    /* Slightly larger for math */
   }
 
   .katex-display {
@@ -97,7 +123,8 @@
   }
 
   /* Better list styling */
-  ul, ol {
+  ul,
+  ol {
     margin-bottom: 1.2rem;
     padding-left: 1.5rem;
   }
@@ -133,21 +160,25 @@
     font-size: 12pt;
     line-height: 1.6;
 
-    /* Remove background effects for printing */
-    background-image: none;
-    background: white;
+    /* Force background printing for ruled paper effect */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 
     /* Ensure page breaks are appropriate */
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       page-break-after: avoid;
     }
 
-    pre, blockquote {
+    pre,
+    blockquote {
       page-break-inside: avoid;
     }
 
     /* Orphans and widows control */
-    p, li {
+    p,
+    li {
       orphans: 3;
       widows: 3;
     }
