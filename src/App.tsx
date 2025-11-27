@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
+import { useToast } from './components/Toast';
 import { THEMES } from './constants';
 import { ThemeId } from './types';
 import { enhanceMarkdown, smartFormatMarkdown } from './services/geminiService';
@@ -21,6 +22,7 @@ import katexCss from 'katex/dist/katex.min.css?inline';
 import themesCss from './themes.css?inline';
 
 const App: React.FC = () => {
+  const { showToast } = useToast();
   const [markdown, setMarkdown] = useState<string>('');
   const [activeThemeId, setActiveThemeId] = useState<ThemeId>(ThemeId.DEFAULT);
   const [isEnhancing, setIsEnhancing] = useState(false);
@@ -185,7 +187,7 @@ const App: React.FC = () => {
 
   const handleSmartFormat = useCallback(async () => {
     if (!import.meta.env.VITE_API_KEY) {
-      alert("请先设置 API_KEY 环境变量以使用 AI 功能。");
+      showToast("请先设置 API_KEY 环境变量以使用 AI 功能", "error");
       return;
     }
     
@@ -195,8 +197,7 @@ const App: React.FC = () => {
       const formatted = await smartFormatMarkdown(markdown);
       setMarkdown(formatted);
     } catch (error) {
-      console.error("Smart format error", error);
-      alert("智能排版失败，请检查网络或稍后重试。");
+      showToast("智能排版失败，请检查网络或稍后重试", "error");
     } finally {
       setIsSmartFormatting(false);
     }
@@ -204,7 +205,7 @@ const App: React.FC = () => {
 
   const handleEnhance = useCallback(async () => {
     if (!import.meta.env.VITE_API_KEY) {
-      alert("请先设置 API_KEY 环境变量以使用 AI 功能。");
+      showToast("请先设置 API_KEY 环境变量以使用 AI 功能", "error");
       return;
     }
     
@@ -213,7 +214,7 @@ const App: React.FC = () => {
       const improved = await enhanceMarkdown(markdown);
       setMarkdown(improved);
     } catch (error) {
-      alert("AI 润色失败，请稍后重试。");
+      showToast("AI 润色失败，请稍后重试", "error");
     } finally {
       setIsEnhancing(false);
     }
