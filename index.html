@@ -1,35 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MatNoble Editor - 智能 Markdown 编辑器</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="MatNoble Editor - 强大的在线 Markdown 编辑器，支持 MD2HTML 转换、AI 润色、LaTeX 公式和实时预览。提供多款精美主题，支持一键导出 HTML。专业的 Markdown to HTML 工具。">
-    <meta name="keywords" content="Markdown编辑器, 在线编辑器, AI写作助手, LaTeX公式, Markdown Themes, MatNoble, MD2HTML, M2H, Editor, MarkdownToHTML, Markdown转换器, HTML导出, 实时预览, 数学公式, MarkDown编辑, MD转HTML, Markdown to HTML converter, online markdown editor, markdown preview, latex math, markdown themes, markdown with latex, math editor, markdown to html online, MD2HTML online, M2H converter, markdown export, mathematical notation, katex editor">
-    <meta name="author" content="MatNoble">
-    
+    <meta
+      name="description"
+      content="MatNoble Editor - 强大的在线 Markdown 编辑器，支持 MD2HTML 转换、AI 润色、LaTeX 公式和实时预览。提供多款精美主题，支持一键导出 HTML。专业的 Markdown to HTML 工具。"
+    />
+    <meta
+      name="keywords"
+      content="Markdown编辑器, 在线编辑器, AI写作助手, LaTeX公式, Markdown Themes, MatNoble, MD2HTML, M2H, Editor, MarkdownToHTML, Markdown转换器, HTML导出, 实时预览, 数学公式, MarkDown编辑, MD转HTML, Markdown to HTML converter, online markdown editor, markdown preview, latex math, markdown themes, markdown with latex, math editor, markdown to html online, MD2HTML online, M2H converter, markdown export, mathematical notation, katex editor"
+    />
+    <meta name="author" content="MatNoble" />
+
     <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="MatNoble Editor - 智能 Markdown 编辑器">
-    <meta property="og:description" content="极简设计，功能强大。支持 AI 润色、LaTeX 公式渲染与多种精美主题。">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://editor.matnoble.top">
-    
+    <meta
+      property="og:title"
+      content="MatNoble Editor - 智能 Markdown 编辑器"
+    />
+    <meta
+      property="og:description"
+      content="极简设计，功能强大。支持 AI 润色、LaTeX 公式渲染与多种精美主题。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://editor.matnoble.top" />
+
     <!-- Favicon (Using generic placeholder or valid link if available) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>"
+    />
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- KaTeX CSS for Math Rendering -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <style>
       /* Custom Scrollbar */
@@ -38,14 +61,14 @@
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: transparent; 
+        background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
+        background: #cbd5e1;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
+        background: #94a3b8;
       }
       .dark ::-webkit-scrollbar-thumb {
         background: #475569;
@@ -57,7 +80,7 @@
           margin: 0; /* Remove default browser margin to allow full-bleed background */
           size: auto;
         }
-        
+
         /* Enable background graphics printing */
         * {
           -webkit-print-color-adjust: exact !important;
@@ -65,7 +88,8 @@
         }
 
         /* Reset basic document constraints */
-        html, body {
+        html,
+        body {
           height: auto !important;
           width: 100% !important;
           overflow: visible !important;
@@ -83,7 +107,8 @@
         }
 
         /* Reset specific print container styles */
-        #preview-scroll-container, #print-container {
+        #preview-scroll-container,
+        #print-container {
           height: auto !important;
           width: 100% !important;
           overflow: visible !important;
@@ -93,13 +118,17 @@
         }
 
         /* Allow code blocks to break nicely */
-        pre, code {
+        pre,
+        code {
           white-space: pre-wrap !important;
           break-inside: avoid;
         }
 
         /* Clean up tables */
-        table, tr, td, th {
+        table,
+        tr,
+        td,
+        th {
           break-inside: avoid;
         }
 
@@ -110,16 +139,27 @@
         }
 
         /* Pagination Control */
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
           break-after: avoid;
           page-break-after: avoid;
         }
-        
-        p, blockquote, ul, ol, dl, table, pre {
+
+        p,
+        blockquote,
+        ul,
+        ol,
+        dl,
+        table,
+        pre {
           break-inside: avoid;
           page-break-inside: avoid;
         }
-        
+
         /* Hide URL hrefs */
         a {
           text-decoration: underline;
@@ -127,8 +167,10 @@
       }
     </style>
   </head>
-  <body class="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-screen w-screen overflow-hidden print:overflow-visible print:h-auto">
+  <body
+    class="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-screen w-screen overflow-hidden print:overflow-visible print:h-auto"
+  >
     <div id="root" class="h-full w-full"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

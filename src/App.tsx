@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import tailwindCss from './index.css?inline';
 import katexCss from 'katex/dist/katex.min.css?inline';
-import themesCss from './src/themes.css?inline';
+import themesCss from './themes.css?inline';
 
 const App: React.FC = () => {
   const [markdown, setMarkdown] = useState<string>('');
