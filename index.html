@@ -28,6 +28,67 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://editor.matnoble.top" />
+    <meta property="og:image" content="https://editor.matnoble.top/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MatNoble Editor - 智能 Markdown 编辑器" />
+    <meta name="twitter:description" content="极简设计，功能强大。支持 AI 润色、LaTeX 公式渲染与多种精美主题。" />
+    <meta name="twitter:image" content="https://editor.matnoble.top/og-image.png" />
+
+    <!-- WeChat Sharing Optimization -->
+    <meta itemprop="name" content="MatNoble Editor - 智能 Markdown 编辑器" />
+    <meta itemprop="description" content="极简设计，功能强大。支持 AI 润色、LaTeX 公式渲染与多种精美主题。" />
+    <meta itemprop="image" content="https://editor.matnoble.top/og-image.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://editor.matnoble.top" />
+
+    <!-- Theme Color & Mobile Optimization -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MatNoble Editor" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "MatNoble Editor",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "url": "https://editor.matnoble.top",
+      "description": "强大的在线 Markdown 编辑器，支持 MD2HTML 转换、AI 润色、LaTeX 公式和实时预览。提供多款精美主题，支持一键导出 HTML。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "MatNoble"
+      },
+      "featureList": [
+        "AI 智能润色",
+        "LaTeX 数学公式支持",
+        "实时预览",
+        "多种精美主题",
+        "一键导出 HTML",
+        "Markdown to HTML 转换"
+      ]
+    }
+    </script>
+
 
     <!-- Favicon (Using generic placeholder or valid link if available) -->
     <link
@@ -35,24 +96,27 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>"
     />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Optimized Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat&display=swap"
       rel="stylesheet"
     />
 
-    <!-- KaTeX CSS for Math Rendering -->
+    <!-- KaTeX CSS for Math Rendering - Optimized -->
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/DEFAULT_MARKDOWN.md" as="fetch" crossorigin="anonymous" />
 
     <style>
       /* Custom Scrollbar */

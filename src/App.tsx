@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
 import { useToast } from './components/Toast';
+import { ShareButton } from './components/ShareButton';
+import { Footer } from './components/Footer';
 import { THEMES } from './constants';
 import { ThemeId } from './types';
 import { enhanceMarkdown, smartFormatMarkdown } from './services/geminiService';
@@ -205,7 +207,8 @@ const App: React.FC = () => {
 
   const handleEnhance = useCallback(async () => {
     if (!import.meta.env.VITE_API_KEY) {
-      showToast("请先设置 API_KEY 环境变量以使用 AI 功能", "error");
+      showToast("该功能正在紧急开发中", "error");
+      // showToast("请先设置 API_KEY 环境变量以使用 AI 功能", "error");
       return;
     }
     
@@ -287,6 +290,8 @@ const App: React.FC = () => {
           <div className="h-6 w-px bg-gray-300 dark:bg-slate-600" />
 
           {/* Format Group Button */}
+          {/* Format Group Button */}
+          {/*
           <div className="relative flex items-center" ref={formatMenuRef}>
             <button
               onClick={handleFormat}
@@ -336,6 +341,7 @@ const App: React.FC = () => {
               </div>
             )}
           </div>
+          */}
 
           {/* AI Enhance Action */}
           <button
@@ -360,14 +366,18 @@ const App: React.FC = () => {
             )}
           </button>
 
-          {/* Export HTML Action (Simplified) */}
+          {/* Export HTML Button */}
           <button
             onClick={handleExportHtml}
-            className="flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white transition-all duration-200 shadow-md hover:shadow-lg"
+            title="导出为 HTML"
           >
             <Download className="w-4 h-4" />
             <span className="hidden md:inline">导出 HTML</span>
           </button>
+
+          {/* Share Button */}
+          <ShareButton />
         </div>
         </div>
       </header>
@@ -442,261 +452,8 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Footer */}
-      <footer className={`flex-none print:hidden transition-all duration-500 ease-in-out ${isFooterCollapsed ? 'py-2' : 'py-8'}`}>
-        <div className="max-w-sm mx-auto">
-          {/* Toggle Button */}
-          <button
-            onClick={() => setIsFooterCollapsed(!isFooterCollapsed)}
-            className="w-full flex items-center justify-center py-2 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors mb-2 group"
-          >
-            <span className="mr-2 opacity-70">
-              {isFooterCollapsed ? '展开作者信息' : '收起'}
-            </span>
-            {isFooterCollapsed ? (
-              <ChevronUp className="w-3 h-3 transform transition-transform group-hover:scale-110" />
-            ) : (
-              <ChevronDown className="w-3 h-3 transform transition-transform group-hover:scale-110" />
-            )}
-          </button>
-
-          {/* Collapsible Content */}
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isFooterCollapsed ? 'max-h-0 opacity-0' : 'max-h-96 opacity-100'}`}>
-            {/* Liquid glass container */}
-            <div className="relative backdrop-blur-2xl bg-white/20 dark:bg-slate-800/20 rounded-3xl border border-white/30 dark:border-white/15 shadow-2xl overflow-hidden glass-container hover-glow">
-              {/* Multi-layer background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/8 to-pink-500/10"></div>
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent"></div>
-
-              {/* Animated floating orbs */}
-              <div className="absolute -top-8 -left-8 w-24 h-24 bg-blue-400/25 rounded-full blur-3xl float-orb"></div>
-              <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-purple-400/25 rounded-full blur-3xl float-orb" style={{animationDelay: '1s'}}></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-pink-400/20 rounded-full blur-2xl float-orb" style={{animationDelay: '2s'}}></div>
-
-              {/* Dynamic light trail effect */}
-              <div className="absolute inset-0 light-trail"></div>
-
-              {/* Content */}
-              <div className="relative z-10 p-6">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg ring-2 ring-white/20 hover:scale-110 transition-transform">
-                    M
-                  </div>
-                  <span className="ml-2.5 text-sm font-medium text-slate-700 dark:text-slate-200">MatNoble</span>
-                </div>
-
-                <p className="text-xs text-slate-600 dark:text-slate-300 mb-4 opacity-90">
-                  Mathematical elegance meets digital creativity
-                </p>
-
-                <div className="flex items-center justify-center space-x-4 text-xs">
-                <a
-                  href="https://blog.matnoble.top"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center space-x-1 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
-                >
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4.3 2.7A2 2 0 003 4.5v11a2 2 0 002.3 2.2l11-2.5a2 2 0 001.7-2V4.8a2 2 0 00-1.7-2l-11-2z" clipRule="evenodd"/>
-                  </svg>
-                  <span>Blog</span>
-                </a>
-
-                <span className="text-slate-400 dark:text-slate-500">•</span>
-
-                <span className="text-slate-600 dark:text-slate-300">数学思维研究社</span>
-
-                <span className="text-slate-400 dark:text-slate-500">•</span>
-
-                <a
-                  href="https://github.com/MatNoble"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center space-x-1 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
-                >
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0110 4.844c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.169 20 14.418 20 10c0-5.523-4.477-10-10-10z" clipRule="evenodd"/>
-                  </svg>
-                  <span>GitHub</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Animated shimmer effect */}
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent shimmer"></div>
-          </div>
-        </div>
-        </div>
-
-        {/* CSS for enhanced liquid glass effects */}
-        <style>{`
-          @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-          }
-
-          @keyframes float-orb {
-            0%, 100% {
-              transform: translate(0, 0) scale(1);
-              opacity: 0.6;
-            }
-            25% {
-              transform: translate(10px, -15px) scale(1.1);
-              opacity: 0.8;
-            }
-            50% {
-              transform: translate(-5px, -10px) scale(0.95);
-              opacity: 0.7;
-            }
-            75% {
-              transform: translate(-10px, 5px) scale(1.05);
-              opacity: 0.9;
-            }
-          }
-
-          @keyframes float-header-orb {
-            0%, 100% {
-              transform: translateY(-50%) translateX(0) scale(1);
-              opacity: 0.3;
-            }
-            50% {
-              transform: translateY(-50%) translateX(5px) scale(1.2);
-              opacity: 0.5;
-            }
-          }
-
-          @keyframes glow-pulse {
-            0%, 100% {
-              box-shadow:
-                0 8px 32px rgba(31, 38, 135, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-            }
-            50% {
-              box-shadow:
-                0 12px 48px rgba(31, 38, 135, 0.25),
-                0 0 20px rgba(59, 130, 246, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-            }
-          }
-
-          .shimmer {
-            animation: shimmer 4s ease-in-out infinite;
-          }
-
-          .float-orb {
-            animation: float-orb 6s ease-in-out infinite;
-          }
-
-          .float-header-orb {
-            animation: float-header-orb 8s ease-in-out infinite;
-          }
-
-          .glass-container {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            backdrop-filter: blur(20px) saturate(1.8);
-          }
-
-          .glass-container:hover {
-            transform: translateY(-4px) scale(1.02);
-            animation: glow-pulse 2s ease-in-out infinite;
-          }
-
-          .glass-header {
-            backdrop-filter: blur(16px) saturate(1.6);
-            transition: all 0.3s ease;
-          }
-
-          .glass-header:hover {
-            backdrop-filter: blur(20px) saturate(1.8);
-          }
-
-          .hover-glow {
-            position: relative;
-          }
-
-          .hover-glow::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(45deg,
-              transparent 30%,
-              rgba(59, 130, 246, 0.1) 50%,
-              transparent 70%);
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-          }
-
-          .hover-glow:hover::before {
-            opacity: 1;
-            animation: shimmer 2s ease-in-out infinite;
-          }
-
-          /* Enhanced light trail effect */
-          .light-trail {
-            background: radial-gradient(
-              ellipse 80% 50% at 50% 120%,
-              rgba(59, 130, 246, 0.05) 0%,
-              transparent 50%
-            );
-            mix-blend-mode: screen;
-          }
-
-          /* Header shimmer effect */
-          .glass-header::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-              90deg,
-              transparent 0%,
-              rgba(255, 255, 255, 0.08) 50%,
-              transparent 100%
-            );
-            transform: translateX(-100%);
-            animation: header-shimmer 6s infinite;
-          }
-
-          @keyframes header-shimmer {
-            0% {
-              transform: translateX(-100%);
-            }
-            50% {
-              transform: translateX(100%);
-            }
-            100% {
-              transform: translateX(100%);
-            }
-          }
-
-          /* Interactive ripple effect */
-          .glass-container:active::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-              circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-              rgba(255, 255, 255, 0.1) 0%,
-              transparent 40%
-            );
-            border-radius: inherit;
-            opacity: 0;
-            animation: ripple 0.6s ease-out;
-          }
-
-          @keyframes ripple {
-            0% {
-              opacity: 1;
-              transform: scale(0.8);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(1.2);
-            }
-          }
-        `}</style>
-      </footer>
+      {/* Footer - New Component */}
+      <Footer />
     </div>
   );
 };

@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://editor.matnoble.top/sitemap.xml
+
+# Disallow crawling of any API endpoints (if added in future)
+Disallow: /api/
+
+# Allow all resources
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.svg$
