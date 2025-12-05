@@ -12,9 +12,100 @@
   font-family: 'Noto Serif SC', serif;
 }
 
-/* Custom styles for KaTeX - Simple fix for display math centering */
+/* Custom styles for KaTeX - Enhanced Global Styling */
+.katex {
+  font-size: 1.15em !important;
+  /* Slightly larger than text for readability */
+}
+
+/* Display Math (Block) Styling with Equation Numbering */
+body {
+  counter-reset: equation;
+  /* Initialize equation counter */
+}
+
 .katex-display {
-  display: block;
+  display: flex !important;
+  /* Use flexbox for alignment */
+  align-items: center;
+  justify-content: center;
+  margin: 1.5em 0;
   text-align: center;
-  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+  position: relative;
+  counter-increment: equation;
+  /* Increment counter for each display math */
+}
+
+/* The Equation Number */
+.katex-display::after {
+  content: "(" counter(equation) ")";
+  position: absolute;
+  right: 0;
+  font-family: 'Times New Roman', serif;
+  font-size: 1rem;
+  color: #555;
+  pointer-events: none;
+  /* Don't interfere with scroll/click */
+  padding-left: 1rem;
+}
+
+/* Hide equation number on small screens if it overlaps, or handle nicely */
+@media (max-width: 640px) {
+  .katex-display::after {
+    position: static;
+    margin-left: auto;
+    padding-left: 0.5rem;
+    font-size: 0.9em;
+  }
+
+  .katex-display {
+    flex-wrap: wrap;
+    /* Allow wrapping on mobile */
+    justify-content: space-between;
+  }
+
+  .katex-display>.katex {
+    flex: 1;
+    overflow-x: auto;
+    text-align: center;
+  }
+}
+
+/* Ensure display math wrapper in Preview.tsx also handles overflow if needed */
+.katex-display-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Print Optimization - The "Paper" Look */
+@media print {
+  .katex {
+    font-size: 1.1em !important;
+    color: black !important;
+    /* Force black for print */
+  }
+
+  .katex-display {
+    break-inside: avoid;
+    /* Prevent splitting equation across pages */
+    margin: 1em 0;
+    padding-right: 2em;
+    /* Ensure space for number */
+  }
+
+  .katex-display::after {
+    color: black !important;
+    right: 0;
+    font-size: 10pt;
+  }
+
+  /* Reset background for print to save ink, unless user wants "paper" bg */
+  body,
+  .markdown-body {
+    background: white !important;
+    color: black !important;
+  }
 }
